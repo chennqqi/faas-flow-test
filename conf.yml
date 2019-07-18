@@ -1,0 +1,10 @@
+﻿environment:
+  gateway: "gateway.openfaas:8080"
+  enable_hmac: false
+  enable_tracing: false
+  trace_server: "jaeger-agent.default.svc.cluster.local:5775"      
+  consul_url: "consul.default.svc.cluster.local:8500"
+  consul_dc: "dc1"
+  write_debug: false
+  s3_url: "minio-service.default.svc.cluster.local:9000"
+  s3_tls: false

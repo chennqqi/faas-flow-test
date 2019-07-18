@@ -1,0 +1,95 @@
+﻿version: 1.0
+provider:
+  name: openfaas
+  gateway: http://127.0.0.1:8080
+functions:
+  add:
+    lang: golang-http
+    handler: ./add
+    image: ${DOCKER_USER:-superscan}/add:latest  
+    secrets:
+      - dockerhub
+    environment:
+      write_debug: true
+      read_debug: true
+  square:
+    lang: golang-middleware
+    handler: ./square
+    image: ${DOCKER_USER:-superscan}/square:latest
+    secrets:
+      - dockerhub
+    environment:
+      write_debug: true
+      read_debug: true
+  square1:
+    lang: go
+    handler: ./square1
+    image: ${DOCKER_USER:-superscan}/square1:latest
+    secrets:
+      - dockerhub
+    environment:
+      write_debug: true
+      read_debug: true
+  add1:
+    lang: go
+    handler: ./add1
+    image: ${DOCKER_USER:-superscan}/add1:latest
+    secrets:
+      - dockerhub
+    environment:
+      write_debug: true
+      read_debug: true
+  sumofsquare:
+    lang: faas-flow
+    handler: ./sumofsquare
+    image: ${DOCKER_USER:-superscan}/sumofsquare:latest
+    labels:
+      faas-flow: 1
+      faas-flow-desc: "faasflow-test-sumofsquare"
+    environment:
+      workflow_name: "sumofsqure"
+    environment_file:
+      - conf.yml
+    secrets:
+      - s3-secret-key
+      - s3-access-key
+      - dockerhub
+  sumofsquare1:
+    lang: faas-flow
+    handler: ./sumofsquare1
+    image: ${DOCKER_USER:-superscan}/sumofsquare1:latest
+    labels:
+      faas-flow: 1
+      faas-flow-desc: "faasflow-test-sumofsquare1"
+    environment:
+      workflow_name: "sumofsqure1"
+    environment_file:
+      - conf.yml
+    secrets:
+      - s3-secret-key
+      - s3-access-key
+      - dockerhub
+  flow-ofwatchdog:
+    lang: faas-flow
+    handler: ./flow-ofwatchdog
+    image: ${DOCKER_USER:-superscan}/flow-ofwatchdog:latest
+    labels:
+      faas-flow: 1
+      faas-flow-desc: "flow-ofwatchdog"
+    environment:
+      workflow_name: "flow-of-watchdog"
+    environment_file:
+      - conf.yml
+    secrets:
+      - s3-secret-key
+      - s3-access-key
+      - dockerhub
+  func-ofwatchdog:
+    lang: golang-http
+    handler: ./func-ofwatchdog
+    image: ${DOCKER_USER:-superscan}/func-ofwatchdog:latest
+    secrets:
+      - dockerhub
+    environment:
+      write_debug: false
+      read_debug: false
